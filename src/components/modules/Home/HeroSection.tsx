@@ -23,21 +23,18 @@ export function HeroSection() {
 
     return (
 
-        <div className=" w-full relative">
-  {/* Dual Gradient Overlay (Top) Background */}
-  <div
-    className="absolute inset-0 z-0"
-    style={{
-      backgroundImage: `
-        linear-gradient(to right, rgba(229,231,235,0.8) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(229,231,235,0.8) 1px, transparent 1px),
-        radial-gradient(circle 500px at 0% 20%, oklch(54.6% 0.245 262.881), transparent),
-        radial-gradient(circle 500px at 100% 0%, oklch(54.6% 0.245 262.881), transparent)
-      `,
-      backgroundSize: "48px 48px, 48px 48px, 100% 100%, 100% 100%",
-    }}
-  />
-     {/* Your Content/Components */}
+           <div className=" w-full bg-white relative overflow-hidden"> 
+ {/* Soft Lavender Center Glow */}
+ <div 
+   className="absolute inset-0 z-0 pointer-events-none" 
+   style={{
+     backgroundImage: `
+       radial-gradient(circle at center, #3b83f68a, transparent)
+     `,
+   }} 
+ />
+ {/* Your Content Here */}
+
 
             {/* Your Content/Components */}
             <section className="relative flex items-center justify-center overflow-hidden ">
