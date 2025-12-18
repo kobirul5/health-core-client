@@ -24,7 +24,7 @@ export default function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
           <Stethoscope className="h-6 w-6 text-primary" />
-          <span className="text-lg font-semibold">TeleMed</span>
+          <span className="text-lg font-semibold">Health Core</span>
         </Link>
 
         {/* Desktop Nav */}
