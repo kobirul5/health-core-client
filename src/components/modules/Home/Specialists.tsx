@@ -57,7 +57,7 @@ export function Specialists() {
             return (
               <Card
                 key={specialist.name}
-                className="p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 cursor-pointer border-border/50 bg-card/50 backdrop-blur-sm"
+                className="p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 border-border/50 bg-card/50 backdrop-blur-sm"
               >
                 <div className="flex items-start gap-4">
                   <div className="p-3 rounded-lg bg-primary/10">
@@ -69,8 +69,7 @@ export function Specialists() {
                     <p className="text-sm font-medium text-primary">{specialist.doctorCount}</p>
                   </div>
                 </div>
-              </Card>
-            )
+              </Card>            )
           })}
         </div>
       </div>
