@@ -1,106 +1,109 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// components/RegistrationForm.tsx
 "use client";
 
-import { useForm } from "react-hook-form";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+  Field,
+  FieldLabel,
+  FieldContent,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+} from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useActionState } from "react";
+import { registerPatient } from "@/services/auth/register";
 
-interface  CreatePatientFormData {
-  password: string;
-  patient: {
-    name: string;
-    email: string;
-    address: string;
-  };
-}
 
 export default function RegistrationForm() {
-  const form = useForm<CreatePatientFormData>({
-    defaultValues: {
-      password: "",
-      patient: {
-        name: "",
-        email: "",
-        address: "",
-      },
-    },
-  });
-
-  function onSubmit(data: CreatePatientFormData) {
-    console.log("Form submitted:", data);
-    
-  }
+  
+    const [state, formAction, isPending] = useActionState(registerPatient, null);
+  console.log(state);
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <FormField
-          control={form.control}
-          name="patient.name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter patient name" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+    <form action={formAction} className="space-y-8">
+      <FieldGroup>
+        {/* Name */}
+        <Field>
+          <FieldLabel>
+            Name <span className="text-red-500">*</span>
+          </FieldLabel>
+          <FieldContent>
+            <Input
+              name="name"
+              placeholder="Enter patient name"
+              disabled={isPending}
+            />
+            <FieldDescription>
+              Full name of the patient
+            </FieldDescription>
+          </FieldContent>
+          {/* <FieldError errors={getFieldErrors("name")} /> */}
+        </Field>
 
-        <FormField
-          control={form.control}
-          name="patient.email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input type="email" placeholder="Enter email" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {/* Email */}
+        <Field>
+          <FieldLabel>
+            Email <span className="text-red-500">*</span>
+          </FieldLabel>
+          <FieldContent>
+            <Input
+              name="email"
+              type="email"
+              placeholder="Enter email"
+              disabled={isPending}
+            />
+            <FieldDescription>
+              We&apos;ll use this to contact you
+            </FieldDescription>
+          </FieldContent>
+          {/* <FieldError errors={getFieldErrors("email")} /> */}
+        </Field>
 
-        <FormField
-          control={form.control}
-          name="patient.address"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Address (optional)</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter address" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {/* Address */}
+        <Field>
+          <FieldLabel>Address (optional)</FieldLabel>
+          <FieldContent>
+            <Input
+              name="address"
+              placeholder="Enter address"
+              disabled={isPending}
+            />
+          </FieldContent>
+          {/* <FieldError errors={getFieldErrors("address")} /> */}
+        </Field>
 
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input type="password" placeholder="Enter password" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {/* Password */}
+        <Field>
+          <FieldLabel>
+            Password <span className="text-red-500">*</span>
+          </FieldLabel>
+          <FieldContent>
+            <Input
+              name="password"
+              type="password"
+              placeholder="Enter password"
+              disabled={isPending}
+            />
+            <FieldDescription>
+              Minimum 6 characters
+            </FieldDescription>
+          </FieldContent>
+          {/* <FieldError errors={getFieldErrors("password")} /> */}
+        </Field>
+      </FieldGroup>
 
-        <Button type="submit" className="w-full">
-          Register Patient
-        </Button>
-      </form>
-    </Form>
+      {/* Success Message */}
+      {/* {state.success && (
+        <p className="text-center text-sm font-medium text-green-600">
+          {state.message || "Registration successful!"}
+        </p>
+      )} */}
+
+      <Button type="submit" className="w-full" disabled={isPending}>
+        {isPending ? "Registering..." : "Register Patient"}
+      </Button>
+    </form>
   );
 }
