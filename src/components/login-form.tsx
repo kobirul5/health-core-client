@@ -11,12 +11,31 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useActionState } from "react";
-import { loginPatient } from "@/services/auth/login"; 
+import { loginPatient } from "@/services/auth/login";
 
 export default function LoginForm() {
   const [state, formAction, isPending] = useActionState(loginPatient, null);
 
-  console.log(state);
+  // const getFieldError = (fieldName: string) => {
+  //   if (state && state.errors) {
+  //     console.log(state.errors,"state.errors");
+  //     console.log(fieldName,"fieldName");
+  //     const fieldError = state?.errors.find((err: any) => err.field === fieldName);
+  //     console.log(fieldError,"fieldError");
+  //     return fieldError.message;
+  //   } else {
+  //     return null;
+  //   }
+  // }
+  const getFieldError = (fieldName: string) => {
+  if (!state?.errors) return null;
+
+  const fieldError = state.errors.find(
+    (err: any) => err.field === fieldName
+  );
+
+  return fieldError?.message ?? null;
+};
 
   return (
     <form action={formAction} className="space-y-8">
@@ -30,6 +49,7 @@ export default function LoginForm() {
             <Input
               name="email"
               type="email"
+              required
               placeholder="Enter your email"
               disabled={isPending}
             />
@@ -37,6 +57,11 @@ export default function LoginForm() {
               Registered email address
             </FieldDescription>
           </FieldContent>
+          {
+            getFieldError("email") && (
+              <p className="text-sm text-red-500">{getFieldError("email")}</p>
+            )
+          }
         </Field>
 
         {/* Password */}
@@ -55,6 +80,11 @@ export default function LoginForm() {
               Your account password
             </FieldDescription>
           </FieldContent>
+          {
+            getFieldError("password") && (
+              <p className="text-sm text-red-500">{getFieldError("password")}</p>
+            )
+          }
         </Field>
       </FieldGroup>
 

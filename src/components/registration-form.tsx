@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// components/RegistrationForm.tsx
 "use client";
 
 import {
@@ -17,9 +16,18 @@ import { registerPatient } from "@/services/auth/register";
 
 
 export default function RegistrationForm() {
-  
-    const [state, formAction, isPending] = useActionState(registerPatient, null);
-  console.log(state);
+
+  const [state, formAction, isPending] = useActionState(registerPatient, null);
+
+  const getFieldError = (fieldName: string) => {
+    if (!state?.errors) return null;
+
+    const fieldError = state.errors.find(
+      (err: any) => err.field === fieldName
+    );
+
+    return fieldError?.message ?? null;
+  };
 
   return (
     <form action={formAction} className="space-y-8">
@@ -39,7 +47,11 @@ export default function RegistrationForm() {
               Full name of the patient
             </FieldDescription>
           </FieldContent>
-          {/* <FieldError errors={getFieldErrors("name")} /> */}
+          {
+            getFieldError("name") && (
+              <p className="text-red-500">{getFieldError("name")}</p>
+            )
+          }
         </Field>
 
         {/* Email */}
@@ -58,7 +70,11 @@ export default function RegistrationForm() {
               We&apos;ll use this to contact you
             </FieldDescription>
           </FieldContent>
-          {/* <FieldError errors={getFieldErrors("email")} /> */}
+          {
+            getFieldError("email") && (
+              <p className="text-red-500">{getFieldError("name")}</p>
+            )
+          }
         </Field>
 
         {/* Address */}
@@ -71,7 +87,11 @@ export default function RegistrationForm() {
               disabled={isPending}
             />
           </FieldContent>
-          {/* <FieldError errors={getFieldErrors("address")} /> */}
+          {
+            getFieldError("address") && (
+              <p className="text-red-500">{getFieldError("name")}</p>
+            )
+          }
         </Field>
 
         {/* Password */}
@@ -90,16 +110,13 @@ export default function RegistrationForm() {
               Minimum 6 characters
             </FieldDescription>
           </FieldContent>
-          {/* <FieldError errors={getFieldErrors("password")} /> */}
+          {
+            getFieldError("password") && (
+              <p className="text-red-500">{getFieldError("name")}</p>
+            )
+          }
         </Field>
       </FieldGroup>
-
-      {/* Success Message */}
-      {/* {state.success && (
-        <p className="text-center text-sm font-medium text-green-600">
-          {state.message || "Registration successful!"}
-        </p>
-      )} */}
 
       <Button type="submit" className="w-full" disabled={isPending}>
         {isPending ? "Registering..." : "Register Patient"}
