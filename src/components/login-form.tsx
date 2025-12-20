@@ -1,71 +1,67 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+  Field,
+  FieldLabel,
+  FieldContent,
+  FieldDescription,
+  FieldGroup,
+} from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-
-interface LoginFormData {
-  email: string;
-  password: string;
-}
+import { useActionState } from "react";
+import { loginPatient } from "@/services/auth/login"; 
 
 export default function LoginForm() {
-  const form = useForm<LoginFormData>({
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
+  const [state, formAction, isPending] = useActionState(loginPatient, null);
 
-  function onSubmit(data: LoginFormData) {
-    console.log("Login submitted:", data);
-   
-  }
+  console.log(state);
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input type="email" placeholder="Enter your email" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+    <form action={formAction} className="space-y-8">
+      <FieldGroup>
+        {/* Email */}
+        <Field>
+          <FieldLabel>
+            Email <span className="text-red-500">*</span>
+          </FieldLabel>
+          <FieldContent>
+            <Input
+              name="email"
+              type="email"
+              placeholder="Enter your email"
+              disabled={isPending}
+            />
+            <FieldDescription>
+              Registered email address
+            </FieldDescription>
+          </FieldContent>
+        </Field>
 
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input type="password" placeholder="Enter your password" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {/* Password */}
+        <Field>
+          <FieldLabel>
+            Password <span className="text-red-500">*</span>
+          </FieldLabel>
+          <FieldContent>
+            <Input
+              name="password"
+              type="password"
+              placeholder="Enter your password"
+              disabled={isPending}
+            />
+            <FieldDescription>
+              Your account password
+            </FieldDescription>
+          </FieldContent>
+        </Field>
+      </FieldGroup>
 
-        <Button type="submit" className="w-full">
-          Login
-        </Button>
-      </form>
-    </Form>
+      {/* Submit Button */}
+      <Button type="submit" className="w-full" disabled={isPending}>
+        {isPending ? "Logging in..." : "Login"}
+      </Button>
+    </form>
   );
 }

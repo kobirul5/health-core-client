@@ -44,7 +44,9 @@ export default function Navbar() {
 
         {/* Actions */}
         <div className="hidden items-center gap-3 md:flex">
-          <Button variant="outline">Login</Button>
+          <Button variant="outline">
+            <Link href="/login">Login</Link>
+          </Button>
           <Button>Book Now</Button>
         </div>
 
@@ -73,7 +75,7 @@ export default function Navbar() {
 
               <div className="pt-4 border-t flex gap-3">
                 <Button variant="outline" className="w-full">
-                  Login
+                  <Link href="/login">Login</Link>
                 </Button>
                 <Button className="w-full">Book Now</Button>
               </div>

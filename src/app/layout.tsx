@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ph Health Care",
-  description: "Ph Health Care Application with Next.js 16",
+  title: "health-core",
+  description: "Health Core Application with Next.js 16",
 };
 
 export default function RootLayout({
