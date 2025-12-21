@@ -7,9 +7,13 @@ const registerValidationZodSchema = z.object({
     email: z.email({
         error: "Invalid email address",
     }),
-    password: z.string().min(4, "Password must be at least 6 characters").max(32, "Password must be at most 32 characters"),
     name: z.string().min(4, "Name must be at least 4 characters").max(32, "Name must be at most 32 characters"),
     address: z.string().min(4, "Address must be at least 4 characters").max(32, "Address must be at most 32 characters"),
+    password: z.string().min(4, "Password must be at least 6 characters").max(32, "Password must be at most 32 characters"),
+    confirmPassword: z.string().min(4, "Password must be at least 6 characters").max(32, "Password must be at most 32 characters").refine((data:any) => data.password === data.confirmPassword, {
+        error: "Passwords do not match",
+        path: ["confirmPassword"],
+    }),
 })
 
 export const registerPatient = async (_currentState:any, formData:any):Promise<any> => {
@@ -19,6 +23,7 @@ export const registerPatient = async (_currentState:any, formData:any):Promise<a
     const valiDatedField = registerValidationZodSchema.safeParse({
         email: formData.get("email"),
         password: formData.get("password"),
+        confirmPassword: formData.get("confirmPassword"),
         name: formData.get("name"),
         address: formData.get("address"),
     });

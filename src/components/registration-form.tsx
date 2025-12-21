@@ -116,6 +116,27 @@ export default function RegistrationForm() {
             )
           }
         </Field>
+
+       {/* Confirm Password */}
+        <Field>
+          <FieldLabel>
+            Confirm Password <span className="text-red-500">*</span>
+          </FieldLabel>
+          <FieldContent>
+            <Input
+              name="confirmPassword"
+              type="password"
+              placeholder="Confirm password"
+              disabled={isPending}
+            />
+          </FieldContent>
+          {
+            getFieldError("confirmPassword") && (
+              <p className="text-red-500">{getFieldError("confirmPassword")}</p>
+            )
+          }
+        </Field>
+
       </FieldGroup>
 
       <Button type="submit" className="w-full" disabled={isPending}>
