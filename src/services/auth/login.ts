@@ -74,7 +74,7 @@ export const loginPatient = async (_currentState: any, formData: any): Promise<a
         cookieStore.set("accessToken", accessTokenObj.accessToken, {
             httpOnly: true,
             path: accessTokenObj.path,
-            maxAge: accessTokenObj.maxAge,
+            maxAge: accessTokenObj['Max-Age'],
             expires: accessTokenObj.expires,
             secure: true,
             sameSite: accessTokenObj.sameSite,
